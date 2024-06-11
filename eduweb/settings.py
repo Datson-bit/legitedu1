@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = 'django-insecure-=5#6oemnkdnaq-2as9ek)%_r9#nv)2mmtb^$wk0ups2+g-j+)q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
+DEBUG = False
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ['', '127.0.0.1']
 
 
 # Application definition
@@ -81,17 +81,15 @@ WSGI_APPLICATION = 'eduweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 # postgres://legitedu_user:1UrgOlFt5VCvnoXSkTpZ4XB4foCqi4kG@dpg-cpk18ded3nmc73fn5oi0-a.oregon-postgres.render.com/legitedu
-database_url = os.environ.get("DATABASE_URL")
-DATABASES['default'] =dj_database_url.parse(database_url)
+# db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'] =dj_database_url.parse("postgres://legitedu_user:1UrgOlFt5VCvnoXSkTpZ4XB4foCqi4kG@dpg-cpk18ded3nmc73fn5oi0-a.oregon-postgres.render.com/legitedu")
 
 
 # Password validation

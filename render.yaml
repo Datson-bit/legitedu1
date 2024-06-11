@@ -1,8 +1,8 @@
 databases:
-  - name: legitedu1
+  - name: legitedu
     plan: free
-    databaseName: legitedu1
-    user: legitedu1
+    databaseName: legitedu
+    user: legitedu
 
 services:
   - type: web
@@ -10,11 +10,11 @@ services:
     name: legitedu1
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "python -m gunicorn mysite.asgi:application -k uvicorn.workers.UvicornWorker"
+    startCommand: "python -m gunicorn Edu_Web.asgi:application -k uvicorn.workers.UvicornWorker"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: legitedu1db
+          name: legitedu
           property: connectionString
       - key: SECRET_KEY
         generateValue: true

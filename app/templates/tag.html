@@ -1,0 +1,40 @@
+{%extends 'base.html'%}
+{%block content%}
+<br>
+<div class="container">
+<h4>Posts related to: {{tag_slug}}</h4>
+<hr/>
+    <div class="container" >
+<div class="row">
+    {%for tag in tags%}
+
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-3">
+                            <img class="img-fluid w-100" src="{{tag.img_url}}" style="object-fit: cover; height: 300px;">
+                            <div class="bg-white border border-top-0 p-4">
+                                <div class="mb-2">
+                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                        href="">{{tag_slug}}</a>
+                                    <a class="text-body" href=""><small>{{tag.date}}</small></a>
+                                </div>
+                                <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="{%url 'view' tag.pk%}">{{tag.title}}</a>
+                                <p class="m-0">{{tag.desc}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle mr-2" src="{{tag.authour_img}}" width="25" height="25" alt="">
+                                    <small>{{tag.authour}}</small>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <small class="ml-3"><i class="far fa-eye mr-2"></i>{{tag.view_count}}</small>
+                                    <small class="ml-3"><i class="far fa-comment mr-2"></i>123</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+  {%endfor%}
+
+    </div>
+    </div>
+</div>
+{%endblock%}

@@ -1,0 +1,13 @@
+{%extends 'base.html'%}
+{%block content%}
+<br>
+<div class="container">
+<h2 >{{Blog.title}}</h2>
+<p>{{Blog.date}}</p>
+<img src="{{Blog.img_url}}"/>
+<h4>{{Blog.body}}</h4>
+
+<br><br>
+<img src="{{Blog.authour_img}}" style="height: 100px; width: 100px;"> <p> Author: {{Blog.authour}}</p>
+</div>
+{%endblock%}

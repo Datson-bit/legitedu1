@@ -1,0 +1,19 @@
+<!-- item_list.html -->
+<form method="GET">
+    <input type="text" name="keyword" placeholder="Search by name">
+    <select name="category">
+        <option value="">All Categories</option>
+        <option value="Category1">Category1</option>
+        <option value="Category2">Category2</option>
+        <!-- Add more options for categories -->
+    </select>
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for item in items %}
+        <li>{{ item.name }} - {{ item.category }} - ${{ item.price }}</li>
+    {% empty %}
+        <li>No items found.</li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{%block content %}
+<!-- Breaking News Start -->
+    <div class="container-fluid mt-5 mb-3 pt-3">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                        <div class="section-title border-right-0 mb-0" style="width: 180px;">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Trending</h4>
+                        </div>
+                        <div class="owl-carousel tranding-carousel position-relative d-inline-flex align-items-center bg-white border border-left-0"
+                            style="width: calc(100% - 180px); padding-right: 100px;">
+                            {%for trending in trending%}
+                            <div class="text-truncate"><a class="text-secondary text-uppercase font-weight-semi-bold" href="">{{trending.title}}</a></div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breaking News End -->
+
+
+    <!-- News With Sidebar Start -->
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- News Detail Start -->
+                    <div class="position-relative mb-3">
+                        <img class="img-fluid w-100" src="{{Blog.img_url}}" style="object-fit: cover;">
+                        <div class="bg-white border border-top-0 p-4">
+                            <div class="mb-3">
+                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                    href="">{{Blog.tag}}</a>
+                                <a class="text-body" href="">{{Blog.date}}</a>
+                            </div>
+                            <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">{{Blog.title}}</h1>
+                           <div> {{Blog.body|safe}}</div>
+                          
+                        </div>
+                        <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle mr-2" src="{{Blog.authour_img}}" width="25" height="25" alt="">
+                                <span>{{Blog.authour}}</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="ml-3"><i class="far fa-eye mr-2"></i>{{Blog.view_count}}</span>
+                                <span class="ml-3"><i class="far fa-comment mr-2"></i>123</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- News Detail End -->
+
+                    <!-- Comment List Start -->
+                    <div class="mb-3">
+
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold"> Comments</h4>
+                        </div>
+   {%for comment in comments %}
+                        <div class="bg-white border border-top-0 p-4">
+                            <div class="media">
+                                <i class="fas fa-user-circle mr-3"></i>
+                                <div class="media-body">
+                                    <h6><a class="text-secondary font-weight-bold" href="">{{comment.author}}</a> <small><i>{{comment.date}}</i></small></h6>
+                                    <p>{{comment.text}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+
+                    </div>
+                    <!-- Comment List End -->
+
+                    <!-- Comment Form Start -->
+
+
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Leave a comment</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-4">
+
+                        <form method="post" >
+                                                   <input type="hidden" name="csrfmiddlewaretoken" value="uYOo7RFywXllbYfENKX0wdicFeDbR1kqgoeRwlzIzS9xKZELit0Pcx6NNtQtf7sJ">
+                            <div class="form-row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                          <label for="id_author">Name:</label>
+                                    <input type="text" name="author" class="form-control" maxlength="50" required id="id_author">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="id_email">Email:</label>
+                                    <input type="email" name="email" class="form-control" maxlength="200" required id="id_email">
+                                        </div>
+                                    </div>
+                                </div>
+<!--                                <div class="form-group">-->
+<!--                                    <label for="website">Website</label>-->
+<!--                                    <input type="url" class="form-control" id="website">-->
+<!--                                </div>-->
+
+                                <div class="form-group">
+                                  <label for="id_text">Message:</label>
+    <textarea name="text" cols="40" class="form-control" rows="10" required id="id_text">
+</textarea>
+                                </div>
+                                <div class="form-group mb-0">
+                                     <input type="submit" value="Add Comment"
+                                        class="btn btn-primary font-weight-semi-bold py-2 px-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Comment Form End -->
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Social Follow Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Follow Us</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #39569E;">
+                                <i class="fab fa-facebook-f text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Fans</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #52AAF4;">
+                                <i class="fab fa-twitter text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Followers</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #0185AE;">
+                                <i class="fab fa-linkedin-in text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Connects</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #C8359D;">
+                                <i class="fab fa-instagram text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Followers</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #DC472E;">
+                                <i class="fab fa-youtube text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Subscribers</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none" style="background: #055570;">
+                                <i class="fab fa-vimeo-v text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Followers</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Social Follow End -->
+
+                    <!-- Ads Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Advertisement</h4>
+                        </div>
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            <a href=""><img class="img-fluid" src="img/news-800x500-2.jpg" alt=""></a>
+                        </div>
+                    </div>
+                    <!-- Ads End -->
+
+                <!-- Popular News Start -->
+                <div class="mb-3">
+                    <div class="section-title mb-0">
+                        <h4 class="m-0 text-uppercase font-weight-bold">Trending News</h4>
+                    </div>
+                    <div class="bg-white border border-top-0 p-3">
+                        {%for trending in trending %}
+                        <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                            <img class="img-fluid" src="trending.img_url" alt="">
+                            <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                <div class="mb-2">
+                                    {%for tag in trending.tags.all%}
+                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{tag.name}}</a>
+                                    <a class="text-body" href=""><small>{{trending.date}}</small></a>
+                                    {%endfor%}
+                                </div>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{%url 'view' trending.pk%}">{{trending.title}}</a>
+                            </div>
+                        </div>
+                        {%endfor%}
+
+                    <!-- Newsletter Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Newsletter</h4>
+                        </div>
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            <p>Aliqu justo et labore at eirmod justo sea erat diam dolor diam vero kasd</p>
+                            <div class="input-group mb-2" style="width: 100%;">
+                                <input type="text" class="form-control form-control-lg" placeholder="Your Email">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary font-weight-bold px-3">Sign Up</button>
+                                </div>
+                            </div>
+                            <small>Lorem ipsum dolor sit amet elit</small>
+                        </div>
+                    </div>
+                    <!-- Newsletter End -->
+
+                <!-- Tags Start -->
+                <div class="mb-3">
+                    <div class="section-title mb-0">
+                        <h4 class="m-0 text-uppercase font-weight-bold">Tags</h4>
+                    </div>
+                    <div class="bg-white border border-top-0 p-3">
+                        <div class="d-flex flex-wrap m-n1">
+
+                            <a href="{%url 'tag' tag_slug='university'%}" class="btn btn-sm btn-outline-secondary m-1">Universiity</a>
+                            <a href="{%url 'tag' tag_slug='jamb'%}" class="btn btn-sm btn-outline-secondary m-1">Jamb</a>
+                            <a href="{%url 'tag' tag_slug='politics'%}" class="btn btn-sm btn-outline-secondary m-1">Politics</a>
+                            <a href="{%url 'tag' tag_slug='football'%}" class="btn btn-sm btn-outline-secondary m-1">Football</a>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Tags End -->                </div>
+            </div>
+        </div>
+    </div>
+    <!-- News With Sidebar End -->
+
+{%endblock%}

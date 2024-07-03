@@ -1,23 +1,37 @@
+import random
+
+from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 
 from eduweb import settings
 from django.conf import settings
 
-from .models import Blogs, Comment
+from .models import Blogs, Comment, Ad
 from .forms import CommentForm, ReplyForm, ContactForm, SearchForm
 from django.core.mail import EmailMessage
 from .forms import ContactForm
 from django.core.mail import send_mail
+from django.core.paginator import  Paginator, PageNotAnInteger, EmptyPage
+
+
+def get_random_add():
+    ads= Ad.objects.all()
+    if ads.exists():
+        return random.choice(ads)
+    return None
+
 
 
 def Home(request, ):
-    latest = Blogs.objects.all().order_by('-id')[:6]
-    carousel = Blogs.objects.all().order_by('-id')[:4]
-    old = Blogs.objects.all()[:8]
-    footer= Blogs.objects.all().order_by('-id')[:3]
-    trending = Blogs.objects.all().order_by('-id')[:6]
-    return render(request, 'index.html', {'carousel': carousel, 'latest': latest, 'old': old, 'footer':footer, 'trending':trending })
+    latest = Blogs.objects.all().order_by('-id')[:6].annotate(num_comments=Count('comments'))
+    carousel = Blogs.objects.all().order_by('-id')[:4].annotate(num_comments=Count('comments'))
+    old = Blogs.objects.all()[:8].annotate(num_comments=Count('comments'))
+    footer= Blogs.objects.all().order_by('-id')[:3].annotate(num_comments=Count('comments'))
+    trending = Blogs.objects.all().order_by('-id')[:6].annotate(num_comments=Count('comments'))
+    ad= get_random_add()
+
+    return render(request, 'index.html', {'carousel': carousel, 'latest': latest, 'old': old, 'footer':footer, 'trending':trending, 'ad':ad })
 
 
 def blog_tags(request, tag_slug):
@@ -26,18 +40,21 @@ def blog_tags(request, tag_slug):
 
 
 def search(request):
-    form= SearchForm()
+    query= request.GET.get('query')
+    # form= SearchForm()
     results = []
-    if 'query' in request.GET:
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            query = form.cleaned_data['query']
+    if query:
+        # form = SearchForm(request.GET)
+        # if form.is_valid():
+        #     query = form.cleaned_data['query']
             results = Blogs.objects.filter(title__icontains=query) | Blogs.objects.filter(tags__name__icontains=query)
-    return render(request, 'search.html', {'form':form, 'results': results})
+    return render(request, 'search.html', {'query':query, 'results': results})
 
 def blog_detail(request, pk):
-    trending= Blogs.objects.all()
+    trending = Blogs.objects.all().order_by('-id')[:6]
     Blog = get_object_or_404(Blogs, pk=pk)
+    num_comments = Blog.comments.count()
+    ad= get_random_add()
 
     if not hasattr(Blog, 'view_count'):
         Blog = Blogs.objects.get(pk=pk)
@@ -56,7 +73,7 @@ def blog_detail(request, pk):
     else:
         form=CommentForm()
 
-    return render(request, 'single.html', {'Blog': Blog, 'comments': comments, 'trending':trending, 'form': form})
+    return render(request, 'single.html', {'Blog': Blog, 'comments': comments, 'trending':trending, 'ad':ad, 'form': form, 'num_comments':num_comments})
 
 
 #
@@ -82,12 +99,18 @@ def blog_detail(request, pk):
 #             reply.save()
 #     return redirect('view', pk=comment.blog.pk)
 
-def Test(request):
-    return render(request, 'search.html')
-
 
 def Blog(request):
-    return render(request, 'category.html')
+    post = Blogs.objects.all().annotate(num_comments=Count('comments'))
+    paginator = Paginator(post, 10)
+    page = request.GET.get('page')
+    try:
+        paginated_posts = paginator.page(page)
+    except PageNotAnInteger:
+        paginated_posts = paginator.page(1)
+    except EmptyPage:
+        paginated_posts = paginator.page(paginator.num_pages)
+    return render(request, 'category.html', {'post': paginated_posts})
 
 
 def About(request):
@@ -112,10 +135,11 @@ def Contact(request):
             message = form.cleaned_data['message']
 
             send_mail(
-                f"{subject} from {name}",
-                message,
-                email,
-                [settings.EMAIL_HOST_USER]
+                subject,
+                f"Message from {name} <{email}>: \n\n{message}",
+                settings.EMAIL_HOST_USER,
+                ['semescot@gmail.com'],
+                # fail_silently= False
             )
             return redirect('success')
     else:
@@ -137,7 +161,7 @@ def send_email(request):
     # Add any necessary logic or response here
 
 
-# views.py
+# views.py TESTING
 from django.views.generic import ListView
 from .models import Item
 

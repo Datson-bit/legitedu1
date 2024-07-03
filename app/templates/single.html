@@ -48,7 +48,7 @@
                             </div>
                             <div class="d-flex align-items-center">
                                 <span class="ml-3"><i class="far fa-eye mr-2"></i>{{Blog.view_count}}</span>
-                                <span class="ml-3"><i class="far fa-comment mr-2"></i>123</span>
+                                <span class="ml-3"><i class="far fa-comment mr-2"></i>{{num_comments}}</span>
                             </div>
                         </div>
                     </div>
@@ -179,8 +179,9 @@
                                 <div class="mb-2">
                                     {%for tag in trending.tags.all%}
                                     <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{tag.name}}</a>
-                                    <a class="text-body" href=""><small>{{trending.date}}</small></a>
                                     {%endfor%}
+                                    <a class="text-body" href=""><small>{{trending.date}}</small></a>
+
                                 </div>
                                 <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{%url 'view' trending.pk%}">{{trending.title}}</a>
                             </div>

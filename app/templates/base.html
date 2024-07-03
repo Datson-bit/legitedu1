@@ -24,6 +24,8 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{%static 'css/style.css'%}" rel="stylesheet">
+        <link href="{%static 'css/popup.css'%}" rel="stylesheet">
+
 <!-- Include Bootstrap CSS and JavaScript -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -121,14 +123,23 @@
                     </div> -->
                     <a href="/contact" class="nav-item nav-link" id="a">Contact</a>
                     <a href="{%url 'About'%}" class="nav-item nav-link" id="a">About</a>
+                    <a href="{%url 'search' %}" class="nav-item nav-link" id="a">Search</a>
                 </div>
                 <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
-
-                    <input type="text" style="visibility: hidden" class="form-control border-0" placeholder="Keyword">
-                    <div class="input-group-append">
-                        <button class="input-group-text bg-primary text-dark border-0 px-3"><a style="color: white" href="{%url 'search'%}"> <i
+<form action="{%url 'search'%}" method="get">
+                <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
+        <input type="text" name="query" value="" class="form-control border-0" maxlength="100" id="id_query">
+    <div class="input-group-append">
+                        <button type="submit" class="input-group-text bg-primary text-dark border-0 px-3"><a style="color: white" href="{%url 'search'%}"> <i
                                 class="fa fa-search"></i></a></button>
                     </div>
+                </div>
+                    </form>
+<!--                    <input type="text" style="visibility: hidden" class="form-control border-0" placeholder="Keyword">-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button class="input-group-text bg-primary text-dark border-0 px-3"><a style="color: white" href="{%url 'search'%}"> <i-->
+<!--                                class="fa fa-search"></i></a></button>-->
+<!--                    </div>-->
                 </div>
             </div>
         </nav>
@@ -139,6 +150,8 @@
     <div>
         {% block content %}
         {% endblock %}
+        {%include 'ad_popup.html' %}
+    <script src="{%static 'js/popup.js'%}"></script>
     </div>
 
 
@@ -225,7 +238,7 @@
         </div>
     </div>
     <div class="container-fluid py-4 px-sm-3 px-md-5" style="background: #111111;">
-        <p class="m-0 text-center">&copy; <a href="#">Legit Edu <span id="yr">2022</span></a>. All Rights Reserved. 
+        <p class="m-0 text-center" style="color:white">&copy; <a href="#">Legit Edu <span id="yr">2022</span></a>. All Rights Reserved. </p>
 		
     </div>
     <!-- Footer End -->
@@ -257,6 +270,7 @@
         document.getElementById('date').innerHTML= formattedDate;
 
         document.getElementById('yr').innerHTML=year;
+
         </script>
 </body>
 

@@ -29,7 +29,7 @@ class Blogs(models.Model):
 
 
 class Comment(models.Model):
-    blog = models.ForeignKey(Blogs, on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blogs, related_name='comments', on_delete=models.CASCADE)
     author = models.CharField(max_length=50)
     email = models.EmailField(max_length=200)
     text = models.TextField()
@@ -46,6 +46,14 @@ class Reply(models.Model):
     # def get_absolute_url(self):
     #     return reverse('view', args=(str(self.slug)))
 
+class Ad(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='ads/')
+    url = models.URLField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
 class Item(models.Model):
     name = models.CharField(max_length=255)

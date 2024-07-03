@@ -1,0 +1,11 @@
+<!-- ad_popup.html -->
+{% if ad %}
+<div id="ad-popup">
+    <div class="popup-content">
+                <span id="close-popup" class="close-button">&times;</span>
+        <a href="{{ ad.url }}" target="_blank">
+            <img src="{{ ad.image.url }}"  alt="{{ ad.title }}">
+        </a>
+    </div>
+</div>
+{% endif %}

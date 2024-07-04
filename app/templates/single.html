@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {%block content %}
+<head>
+      <meta property="og:title" content="{{ Blog.title }}" />
+    <meta property="og:description" content="{{ Blog.excerpt }}" />
+    <meta property="og:image" content="{{ Blog.img_url }}" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:type" content="article" />
+</head>
 <!-- Breaking News Start -->
     <div class="container-fluid mt-5 mb-3 pt-3">
         <div class="container">

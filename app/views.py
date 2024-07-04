@@ -101,7 +101,7 @@ def blog_detail(request, pk):
 
 
 def Blog(request):
-    post = Blogs.objects.all().annotate(num_comments=Count('comments'))
+    post = Blogs.objects.all().order_by('-id')[:].annotate(num_comments=Count('comments'))
     paginator = Paginator(post, 10)
     page = request.GET.get('page')
     try:

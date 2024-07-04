@@ -1,5 +1,6 @@
 from django import forms
-from .models import Comment, Reply
+from .models import Comment, Reply, Subscriber
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -21,3 +22,10 @@ class ContactForm(forms.Form):
 
 class SearchForm(forms.Form):
     query = forms.CharField(max_length=100, required=False,label='Search')
+
+
+class SubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Subscriber
+        fields= ['email']
+

@@ -1,5 +1,6 @@
 import random
 
+from django.contrib import messages
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
@@ -8,7 +9,7 @@ from eduweb import settings
 from django.conf import settings
 
 from .models import Blogs, Comment, Ad
-from .forms import CommentForm, ReplyForm, ContactForm, SearchForm
+from .forms import CommentForm, ReplyForm, ContactForm, SearchForm, SubscriptionForm
 from django.core.mail import EmailMessage
 from .forms import ContactForm
 from django.core.mail import send_mail
@@ -146,19 +147,53 @@ def Contact(request):
           form = ContactForm()
     return render(request, 'contact.html', {'form': form})
 
+def subscribe(request):
+    if request.method == "POST":
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Thank you for subscribing')
+            return redirect('Home')
+        else:
+            messages.error(request, "There was an error with your subscription")
+    else:
+        form = SubscriptionForm()
+    return render(request,'subscribe.html', {'form':form})
 
-def send_email(request):
-    subject = 'Subject of the Email'
-    message = 'This is the message body.'
-    from_email = 'your-email@example.com'
-    recipient_list = ['recipient@example.com']
+from django.core.mail import send_mail
 
-    send_mail(subject, message, from_email, recipient_list)
-    # email.attach_file('/path/to/attachment.pdf')
-
-    send_email.send()
-
-    # Add any necessary logic or response here
+def subscribe(request):
+    if request.method == 'POST':
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            subscriber = form.save()
+            send_mail(
+                'LEGIT EDU: Subscription Confirmation',
+                'Thank you for subscribing to our newsletter!',
+                'semescot@gmail.com',
+                [subscriber.email],
+                fail_silently=False,
+            )
+            messages.success(request, 'Thank you for subscribing!')
+            return redirect('home')
+        else:
+            messages.error(request, 'There was an error with your subscription.')
+    else:
+        form = SubscriptionForm()
+    return render(request, 'subscribe.html', {'form': form})
+#
+# def send_email(request):
+#     subject = 'Subject of the Email'
+#     message = 'This is the message body.'
+#     from_email = 'your-email@example.com'
+#     recipient_list = ['recipient@example.com']
+#
+#     send_mail(subject, message, from_email, recipient_list)
+#     # email.attach_file('/path/to/attachment.pdf')
+#
+#     send_email.send()
+#
+#     # Add any necessary logic or response here
 
 
 # views.py TESTING
